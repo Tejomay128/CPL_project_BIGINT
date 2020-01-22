@@ -59,7 +59,7 @@ bigInt add(bigInt a,bigInt b)                  //addition function
 	return c;
 }
 
-bool isGreater(bigInt a,bigInt b)              //returns true if a>b
+bool isGreater(bigInt a,bigInt b)              //returns true if a>=b
 {
 	bool retval;
 	int a_len,b_len;
@@ -75,9 +75,20 @@ bool isGreater(bigInt a,bigInt b)              //returns true if a>b
 		int i=0;
 		while(i<a_len && flag)
 		{
-			
+			if(a[i]>b[i])
+			{
+				flag=false;
+				retval=true;
+			}
+			else if(a[i]<b[i])
+			{
+				flag=false;
+				retval=false;
+			}
+			i++;
 		}
 	}
+	return retval;
 }
 
 bigInt sub(bigInt a,bigInt b)
@@ -130,8 +141,6 @@ bigInt sub(bigInt a,bigInt b)
 		ch = val+'0';
 		c.push_back(ch);
 	}
-	if(borrow == 1)
-		c.push_back('-');
 	reverse(c.begin(),c.end());
 
 	return c;
@@ -140,9 +149,17 @@ bigInt sub(bigInt a,bigInt b)
 int main()
 {
 	bigInt a,b,c;
+	char opt;
+	cout<<"Enter two numbers:\n";
 	getline(cin,a);
 	getline(cin,b);
-	c=sub(a,b);
-	cout<<c;
+	cout<<"Options:\n1)Addition\n2)Subtraction\n3)Multiplication\nChoose one of the above(1-3):";
+	cin>>opt;
+	switch(opt)
+	{
+		case '1': {
+			
+		}
+	}
 	return 0;
 }
