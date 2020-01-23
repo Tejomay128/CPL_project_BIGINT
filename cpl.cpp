@@ -1,5 +1,5 @@
 #include<iostream>                           //for cin and cout
-#include<string>							 //for string class
+#include<string>			     //for string class
 #include<vector>                             //for vectors and related functions
 #include<algorithm>                          //for reverse() function
 
@@ -16,7 +16,7 @@ bigInt add(bigInt a,bigInt b)                  //addition function
 	a_len = a.length();
 	b_len = b.length();
 
-	if(a[0]=='-')
+	if(a[0]=='-')                              //the string may contain first character as '-' sign,if that is the case,we need to iterate till index 1 and not 0
 		lim=1;
 	else
 		lim=0;
@@ -40,7 +40,7 @@ bigInt add(bigInt a,bigInt b)                  //addition function
 	if(lim==1)
 		b_len--;
 
-	max_len = (a_len>b_len) ? a_len:b_len;     //making equal sized vectors
+	max_len = (a_len>b_len) ? a_len:b_len;     //making equal sized vectors by pushing zeros at the end of the shorter vector
 
 	for(i=a_len;i<max_len;i++)
 		a_val.push_back(0);
@@ -57,7 +57,7 @@ bigInt add(bigInt a,bigInt b)                  //addition function
 	}
 	if(carry == 1)                              //if carry is generated for the highest power coefficient
 		c.push_back('1');
-	reverse(c.begin(),c.end());
+	reverse(c.begin(),c.end());                 //reversing the string as calculated digits were pushed in reverse order
 
 	return c;
 }
@@ -94,7 +94,7 @@ bool isGreater(bigInt a,bigInt b)              //returns true if a>=b
 	return retval;
 }
 
-bigInt sub(bigInt a,bigInt b)
+bigInt sub(bigInt a,bigInt b)                 //subtraction function 
 {
 	bigInt c="";
 	vector<int> a_val,b_val;
@@ -103,7 +103,7 @@ bigInt sub(bigInt a,bigInt b)
 	a_len = a.length();
 	b_len = b.length();
 
-	if(a[0]=='-')
+	if(a[0]=='-')                              //the string may contain first character as '-' sign,if that is the case,we need to iterate till index 1 and not 0
 		lim=1;
 	else
 		lim=0;
@@ -127,7 +127,7 @@ bigInt sub(bigInt a,bigInt b)
 	if(lim == 1)
 		b_len--;
 
-	max_len = (a_len>b_len) ? a_len:b_len;     //making equal sized vectors
+	max_len = (a_len>b_len) ? a_len:b_len;     //making equal sized vectors by pushing zeros at the end of the shorter vector
 
 	for(i=a_len;i<max_len;i++)
 		a_val.push_back(0);
@@ -148,7 +148,7 @@ bigInt sub(bigInt a,bigInt b)
 		ch = val+'0';
 		c.push_back(ch);
 	}
-	reverse(c.begin(),c.end());
+	reverse(c.begin(),c.end());               //reversing the string as calculated digits were pushed in reverse order
 
 	return c;
 }
@@ -163,7 +163,7 @@ bigInt mul(bigInt a,bigInt b)
 	carry = 0;
 	c = temp = "";
 
-	if(a[0]=='-')
+	if(a[0]=='-')                               //the string may contain first character as '-' sign,if that is the case,we need to iterate till index 1 and not 0
 		lim_a=1;
 	else
 		lim_a=0;
@@ -173,16 +173,16 @@ bigInt mul(bigInt a,bigInt b)
 	else
 		lim_b=0;
 
-	for(i=a_len-1;i>=lim_a;i--)
+	for(i=a_len-1;i>=lim_a;i--)                        
 	{
-		val = (a[i]-'0')*(b[b_len-1]-'0') + carry;
+		val = (a[i]-'0')*(b[b_len-1]-'0') + carry;      //multiplying the first no. with the last digit of second no. to get an initial value
 		carry = val/10;
 		val = val%10;
 		ch = val+'0';
 		c.push_back(ch);
 	}
-	reverse(c.begin(),c.end());
-	
+	reverse(c.begin(),c.end());                    //reversing the string as calculated digits were pushed in reverse order
+
 	zero = 1;
 	for(j=b_len-2;j>=lim_b;j--)
 	{  
@@ -190,7 +190,7 @@ bigInt mul(bigInt a,bigInt b)
 		temp = "";                                          
 		for(i=a_len-1;i>=lim_a;i--)
 		{
-			val = (a[i]-'0')*(b[j]-'0') + carry;
+			val = (a[i]-'0')*(b[j]-'0') + carry;        //multiplying with the rest of the digits 
 			carry = val/10;
 			val = val%10;
 			ch = val+'0';
@@ -218,12 +218,12 @@ int main()
 	switch(opt)
 	{
 		case '1': {
-			if(a[0]=='-' && b[0]=='-')
+			if(a[0]=='-' && b[0]=='-')          //both numbers are negative
 			{
 				c = add(a,b);
 				c.insert(0,minus);
 			}
-			else if(a[0]=='-')
+			else if(a[0]=='-')                   //first number is negative
 			{
 				if(isGreater(a,b))
 				{
@@ -233,7 +233,7 @@ int main()
 				else
 					c = sub(b,a);
 			}
-			else if(b[0]=='-')
+			else if(b[0]=='-')                   //second number is negative
 			{
 				if(isGreater(a,b))
 					c = sub(a,b);
@@ -243,13 +243,13 @@ int main()
 					c.insert(0,minus);
 				}
 			}
-			else
+			else                                 //both numbers positive  
 				c = add(a,b);
 			break;
 		}
 
 		case '2': {
-			if(a[0]=='-' && b[0]=='-')
+			if(a[0]=='-' && b[0]=='-')           //both numbers are negative
 			{
 				if(isGreater(a,b))
 				{
@@ -259,16 +259,16 @@ int main()
 				else
 					c = sub(b,a);
 			}
-			else if(a[0]=='-')
+			else if(a[0]=='-')                    //first number is negative
 			{
 				c = add(a,b);
 				c.insert(0,minus);
 			}
-			else if(b[0]=='-')
+			else if(b[0]=='-')                    //second number is negative
 			{
 				c = add(a,b);
 			}
-			else
+			else                                  //both numbers positive  
 			{
 				if(isGreater(a,b))
 					c = sub(a,b);
@@ -281,7 +281,7 @@ int main()
 		}
 
 		case '3': {
-			if((a[0]=='-' && b[0]!='-') || (a[0]!='-' && b[0]=='-'))
+			if((a[0]=='-' && b[0]!='-') || (a[0]!='-' && b[0]=='-'))           //Either first or second no. is negative
 			{
 				c = mul(a,b);
 				c.insert(0,minus); 
