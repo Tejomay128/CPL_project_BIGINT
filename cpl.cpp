@@ -1,8 +1,7 @@
-#include<iostream>
-#include<string>
-#include<vector>
-#include<iterator>
-#include<algorithm>
+#include<iostream>                           //for cin and cout
+#include<string>							 //for string class
+#include<vector>                             //for vectors and related functions
+#include<algorithm>                          //for reverse() function
 
 using namespace std;
 
@@ -26,6 +25,8 @@ bigInt add(bigInt a,bigInt b)                  //addition function
 	{
 		a_val.push_back(a[i] - '0');
 	}
+	if(lim == 1)
+		a_len--;
 
 	if(b[0]=='-')
 		lim=1;
@@ -36,6 +37,8 @@ bigInt add(bigInt a,bigInt b)                  //addition function
 	{
 		b_val.push_back(b[i] - '0');
 	}
+	if(lim==1)
+		b_len--;
 
 	max_len = (a_len>b_len) ? a_len:b_len;     //making equal sized vectors
 
@@ -109,6 +112,8 @@ bigInt sub(bigInt a,bigInt b)
 	{
 		a_val.push_back(a[i] - '0');
 	}
+	if(lim == 1)
+		a_len--;
 
 	if(b[0]=='-')
 		lim=1;
@@ -119,6 +124,8 @@ bigInt sub(bigInt a,bigInt b)
 	{
 		b_val.push_back(b[i] - '0');
 	}
+	if(lim == 1)
+		b_len--;
 
 	max_len = (a_len>b_len) ? a_len:b_len;     //making equal sized vectors
 
@@ -146,9 +153,62 @@ bigInt sub(bigInt a,bigInt b)
 	return c;
 }
 
+bigInt mul(bigInt a,bigInt b)
+{
+	bigInt c,temp;
+	int a_len,b_len,val,carry,i,j,k,zero,lim_a,lim_b;
+	char ch;
+	a_len = a.length();
+	b_len = b.length();
+	carry = 0;
+	c = temp = "";
+
+	if(a[0]=='-')
+		lim_a=1;
+	else
+		lim_a=0;
+
+	if(b[0]=='-')
+		lim_b=1;
+	else
+		lim_b=0;
+
+	for(i=a_len-1;i>=lim_a;i--)
+	{
+		val = (a[i]-'0')*(b[b_len-1]-'0') + carry;
+		carry = val/10;
+		val = val%10;
+		ch = val+'0';
+		c.push_back(ch);
+	}
+	reverse(c.begin(),c.end());
+	
+	zero = 1;
+	for(j=b_len-2;j>=lim_b;j--)
+	{  
+		carry = 0;
+		temp = "";                                          
+		for(i=a_len-1;i>=lim_a;i--)
+		{
+			val = (a[i]-'0')*(b[j]-'0') + carry;
+			carry = val/10;
+			val = val%10;
+			ch = val+'0';
+			temp.push_back(ch);	
+		}
+		reverse(temp.begin(),temp.end());
+		for(k=0;k<zero;k++)
+			temp.push_back('0');
+		zero++;
+		c = add(temp,c);
+	}
+	return c;
+}
+
 int main()
 {
-	bigInt a,b,c;
+	bigInt a,b,c,minus;
+	minus = "-";
 	char opt;
 	cout<<"Enter two numbers:\n";
 	getline(cin,a);
@@ -158,8 +218,78 @@ int main()
 	switch(opt)
 	{
 		case '1': {
-			
+			if(a[0]=='-' && b[0]=='-')
+			{
+				c = add(a,b);
+				c.insert(0,minus);
+			}
+			else if(a[0]=='-')
+			{
+				if(isGreater(a,b))
+				{
+					c = sub(a,b);
+					c.insert(0,minus);
+				}
+				else
+					c = sub(b,a);
+			}
+			else if(b[0]=='-')
+			{
+				if(isGreater(a,b))
+					c = sub(a,b);
+				else
+				{
+					c = sub(b,a);
+					c.insert(0,minus);
+				}
+			}
+			else
+				c = add(a,b);
+			break;
+		}
+
+		case '2': {
+			if(a[0]=='-' && b[0]=='-')
+			{
+				if(isGreater(a,b))
+				{
+					c = sub(a,b);
+					c.insert(0,minus);
+				}
+				else
+					c = sub(b,a);
+			}
+			else if(a[0]=='-')
+			{
+				c = add(a,b);
+				c.insert(0,minus);
+			}
+			else if(b[0]=='-')
+			{
+				c = add(a,b);
+			}
+			else
+			{
+				if(isGreater(a,b))
+					c = sub(a,b);
+				else
+				{
+					c = sub(b,a);
+					c.insert(0,minus);
+				}
+			}
+		}
+
+		case '3': {
+			if((a[0]=='-' && b[0]!='-') || (a[0]!='-' && b[0]=='-'))
+			{
+				c = mul(a,b);
+				c.insert(0,minus); 
+			}
+			else
+				c = mul(a,b);
 		}
 	}
+	cout<<c<<"\n";
 	return 0;
 }
