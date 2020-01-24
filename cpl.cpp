@@ -66,6 +66,10 @@ bool isGreater(bigInt a,bigInt b)              //returns true if a>=b
 {
 	bool retval;
 	int a_len,b_len;
+	if(a[0]=='-')
+		a.erase(0,1);
+	if(b[0]=='-')
+		b.erase(0,1);
 	a_len = a.length();
 	b_len = b.length();
 	if(a_len>b_len)
