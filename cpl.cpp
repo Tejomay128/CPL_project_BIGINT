@@ -218,7 +218,7 @@ int main()
 {
 	bigInt a,b,c,minus;
 	minus = "-";
-	char opt;
+	char opt,repeat;
 	cout<<"Enter two numbers:\n";
 	getline(cin,a);
 	getline(cin,b);
@@ -299,6 +299,10 @@ int main()
 			else
 				c = mul(a,b);
 			break;
+		}
+
+		default: {
+			cout<<"Enter a valid choice!!!\n";
 		}
 	}
 	cout<<c<<"\n";
