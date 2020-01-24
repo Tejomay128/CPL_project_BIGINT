@@ -1,5 +1,5 @@
 #include<iostream>                           //for cin and cout
-#include<string>			     //for string class
+#include<string>							 //for string class
 #include<vector>                             //for vectors and related functions
 #include<algorithm>                          //for reverse() function
 
@@ -78,7 +78,7 @@ bool isGreater(bigInt a,bigInt b)              //returns true if a>=b
 		int i=0;
 		while(i<a_len && flag)
 		{
-			if(a[i]>b[i])
+			if(a[i]>=b[i])
 			{
 				flag=false;
 				retval=true;
@@ -148,6 +148,12 @@ bigInt sub(bigInt a,bigInt b)                 //subtraction function
 		ch = val+'0';
 		c.push_back(ch);
 	}
+	i = c.length() - 1;
+	while(i>=1 && c[i]=='0')
+	{
+		c.pop_back();
+		i--;
+	}	
 	reverse(c.begin(),c.end());               //reversing the string as calculated digits were pushed in reverse order
 
 	return c;
@@ -181,8 +187,9 @@ bigInt mul(bigInt a,bigInt b)
 		ch = val+'0';
 		c.push_back(ch);
 	}
+	c.push_back(carry + '0');
 	reverse(c.begin(),c.end());                    //reversing the string as calculated digits were pushed in reverse order
-
+	cout<<c<<" ";
 	zero = 1;
 	for(j=b_len-2;j>=lim_b;j--)
 	{  
@@ -196,11 +203,13 @@ bigInt mul(bigInt a,bigInt b)
 			ch = val+'0';
 			temp.push_back(ch);	
 		}
+		temp.push_back(carry + '0');
 		reverse(temp.begin(),temp.end());
 		for(k=0;k<zero;k++)
 			temp.push_back('0');
 		zero++;
 		c = add(temp,c);
+		cout<<c<<" ";
 	}
 	return c;
 }
@@ -278,6 +287,7 @@ int main()
 					c.insert(0,minus);
 				}
 			}
+			break;
 		}
 
 		case '3': {
@@ -288,6 +298,7 @@ int main()
 			}
 			else
 				c = mul(a,b);
+			break;
 		}
 	}
 	cout<<c<<"\n";
