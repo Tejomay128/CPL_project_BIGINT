@@ -309,6 +309,9 @@ int main()
 			cout<<"Enter a valid choice!!!\n";
 		}
 	}
-	cout<<c<<"\n";
+	if((c[0]=='-' && c.length()<=308) || (c[0]!='-' && c.length()<=307))
+		cout<<c<<"\n";
+	else
+		cout<<"Result is out of bounds!!!!";
 	return 0;
 }
